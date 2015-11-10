@@ -1,5 +1,5 @@
 CC=gcc
-OPT=-Wall -std=c99 -pedantic
+OPT=-Wall -pedantic
 All=client serveur
 
 all : ${All}
