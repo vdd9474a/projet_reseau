@@ -8,11 +8,11 @@
 #include <string.h>
 
 
-//structure
+/*structure*/
 typedef struct s_data * Data;
 
 
-//serveur
+/*serveur*/
 Data initData();
 
 void deleteData(Data data);
@@ -20,9 +20,10 @@ void addFileInListFile(char * fileName, Data info);
 
 void addAddress(Data info, char * addressRecieved);
 
-// Client
+/* Client*/
 
 void initAddressTable(char ** table);
+void deleteAddessTable( char ** table, int size);
 void addAddressInTable(char ** table, char * address);
 
 

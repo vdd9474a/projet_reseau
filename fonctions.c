@@ -30,12 +30,33 @@ void addAddress(Data info, char * addressRecieved)
   strcpy(info->addr,addressRecieved);
 }
 
-void initAddressTable(char ** table)
+void initAddressTable(char ** table, int size)
 {
+  int i;
+  table = malloc(sizeof *table * 2);
   
+  for (i = 0; i < 2; i++)
+  {
+    table[i] = malloc(sizeof **table * 17);
+    
+  }
+  size = 2;
+}
+
+void deleteAddessTable( char ** table, int size)
+{
+  int i;
+  
+  for(i = 0; i < size; i++)
+  {
+    free(table[i]);  
+  }
+  
+  free(table);
 }
 
 void addAddressInTable(char ** table, char * address)
 {
-//   if( table[0][0] == NULL
+
 }
+
