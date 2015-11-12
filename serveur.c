@@ -18,7 +18,7 @@
 #define MAXDATALEN 1024*1000
 
 #define SERVADDR "127.0.0.1"            // Definition de l'adresse IP d'ecoute
-#define SERVPORT "0"                    // Definition du port d'ecoute, si 0 port choisi dynamiquement
+#define SERVPORT "9000"                    // Definition du port d'ecoute, si 0 port choisi dynamiquement
 #define LISTENLEN 23                    // Taille du tampon de demande de connexion
 
 
