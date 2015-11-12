@@ -21,6 +21,7 @@
 #define SERVPORT "9000"                    // Definition du port d'ecoute, si 0 port choisi dynamiquement
 #define LISTENLEN 23                    // Taille du tampon de demande de connexion
 
+#define GROUPE 3
 
  /* Fonction qui ouvre un socket
   * retourne le descripteur du socket
@@ -44,6 +45,10 @@ int main (void)
     char clientAddr[MAXHOSTLEN];    // Adresse du client connecte sur le proxy
     char clientPort[MAXPORTLEN];    // Port du client connete sur le proxy par le socket de communication
     //char buffer[MAXBUFFERLEN];      // buffer stockant les messages echanges entre le client et le serveur
+	
+
+	int groupe = 1;
+	int membre_groupe = 0;
 
 //----------------------------------------------------
 
@@ -125,6 +130,10 @@ int main (void)
                 exit(0);
             case 0 :
                 darthVader = false;
+				break;
+			default:
+				membre_groupe++;
+				if (membre_groupe >= GROUPE) {membre_groupe = 0; groupe++;}
         }
     }
     ecode = getnameinfo((struct sockaddr*)&from, len, clientAddr,MAXHOSTLEN, clientPort, MAXPORTLEN, NI_NUMERICHOST | NI_NUMERICSERV);
@@ -134,9 +143,10 @@ int main (void)
         exit(4);
     }
     printf("\n  port client : %s\n", clientPort);
-    printf("    addr client : %s\n\n", clientAddr);
+    printf("    addr client : %s\n", clientAddr);
+	printf("	groupe : %d\n", groupe);
 
-	
+
 	/*
 	int sock;	//descripteur socket
 
