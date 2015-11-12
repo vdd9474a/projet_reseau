@@ -10,7 +10,7 @@ typedef struct s_data
 
 Data initData()
 {
-	Data info = malloc(sizeof(struct _data));
+	Data info = malloc(sizeof(struct s_data));
 	return info;
 }
 
@@ -22,12 +22,12 @@ void deleteData(Data data)
 
 void addFileInListFile(char * fileName, Data info)
 {
-    strcpy(inf->listeFichiers,fileName);
+    strcpy(info->listeFichiers,fileName);
 }
 
 void addAddress(Data info, char * addressRecieved)
 {
-  strcpy(inf->addr,addressRecieved);
+  strcpy(info->addr,addressRecieved);
 }
 
 void initAddressTable(char ** table)
