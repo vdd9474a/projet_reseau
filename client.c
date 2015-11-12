@@ -13,7 +13,7 @@
 
 #define MAXBUFFERLEN 255
 
-void test(char * adrServ, int numPort);
+void connexion(char * adrServ, int numPort);
 
 int ouvreSocket(void);
 void adresse_host(char * adrServ, struct hostent * adress_en_char);
@@ -32,12 +32,12 @@ int main (int argc, char * argv[])
 	adrServ = argv[1];	//Recuperation de l'adresse du serveur passé en parametre
 	numPort = atoi(argv[2]);	//Recuperation du numero de port pour la connexion au serveur (passé en parametre)
 
-	test(adrServ, numPort);
+	connexion(adrServ, numPort);
 
 	return 0;
 }
 
-void test(char * adrServ, int numPort)
+void connexion(char * adrServ, int numPort)
 {
 	struct sockaddr_in serv_addr;
 	struct hostent * server;
