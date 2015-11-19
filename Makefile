@@ -1,6 +1,6 @@
 CC=gcc
 OPT=-Wall -pedantic
-All=client serveur
+All=client serveur test
 
 
 all : ${All}
@@ -21,4 +21,4 @@ test : main_test_fonctions.c fonctions.o erreur.o
 	${CC} -o test main_test_fonctions.c -g fonctions.o erreur.o ${OPT}
 
 clean :
-	rm client serveur test *.o *~
+	rm client serveur test *.o

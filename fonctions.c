@@ -46,7 +46,6 @@ void addAddress(Data info, char * addressRecieved)
 }
 
 void initAddressTable(char ** table, int size)
-<<<<<<< HEAD
 {
   int i;
   table = malloc(sizeof *table * 2);
@@ -68,38 +67,10 @@ void deleteAddessTable( char ** table, int size)
     free(table[i]);  
   }
   
-=======
-{
-  int i;
-  table = malloc(sizeof *table * 2);
-  
-  for (i = 0; i < 2; i++)
-  {
-    table[i] = malloc(sizeof **table * 17);
-    
-  }
-  size = 2;
-}
-
-void deleteAddessTable( char ** table, int size)
-{
-  int i;
-  
-  for(i = 0; i < size; i++)
-  {
-    free(table[i]);  
-  }
-  
->>>>>>> e783d1339e40b54c91397389c5a92319a5186ddf
   free(table);
 }
 
 void addAddressInTable(char ** table, char * address)
 {
-<<<<<<< HEAD
-  
-=======
-
->>>>>>> e783d1339e40b54c91397389c5a92319a5186ddf
 }
 
