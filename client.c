@@ -13,15 +13,18 @@
 
 #define MAXBUFFERLEN 255
 
-void connexion(char * adrServ, int numPort);
+int connexion(char * adrServ, int numPort);
 
 int ouvreSocket(void);
 void adresse_host(char * adrServ, struct hostent * adress_en_char);
+char * ecoute_reponse(int desc, char * buffer);
 
 int main (int argc, char * argv[])
 {
 	int numPort;
 	char * adrServ;
+	int desc;
+	char buffer[MAXBUFFERLEN];
 
 	if (argc != 3)
 	{
@@ -32,12 +35,14 @@ int main (int argc, char * argv[])
 	adrServ = argv[1];	//Recuperation de l'adresse du serveur passé en parametre
 	numPort = atoi(argv[2]);	//Recuperation du numero de port pour la connexion au serveur (passé en parametre)
 
-	connexion(adrServ, numPort);
+	desc = connexion(adrServ, numPort);
+
+	printf("%s\n", ecoute_reponse(desc, buffer));
 
 	return 0;
 }
 
-void connexion(char * adrServ, int numPort)
+int connexion(char * adrServ, int numPort)
 {
 	struct sockaddr_in serv_addr;
 	struct hostent * server;
@@ -76,7 +81,7 @@ void connexion(char * adrServ, int numPort)
 	if (err == -1) {fprintf(stderr, "erreur recup info");exit(6);}
 	*/
 
-	close(sockfd);
+	return sockfd;
 }
 
 int ouvreSocket(void)
@@ -88,4 +93,16 @@ int ouvreSocket(void)
 		exit(4);
 	}
 	return (descSock);
+}
+
+char * ecoute_reponse(int desc, char * buffer)
+{
+	int ecode = read(desc, buffer, MAXBUFFERLEN);
+	if (ecode == -1)
+	{
+		perror("probleme de lecture\n");
+		exit(6);
+	}
+	buffer[ecode] = '\0';
+	return buffer;
 }

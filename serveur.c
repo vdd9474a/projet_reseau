@@ -23,12 +23,30 @@
 
 #define GROUPE 3
 
+/* Fonction qui met en place un serveur, et attent un connexion.
+ * Retourne descripteur socket de la connexion en cours (communiquation)
+ */
+int deploiement_serveur();
+
+ /* Fonction qui ecrit dans le socket
+  */
+void ecrit_socket(int desc, char * message);
+
  /* Fonction qui ouvre un socket
   * retourne le descripteur du socket
   */
 int ouvreSocket(void);
 
+
 int main (void)
+{
+	int comm = deploiement_serveur();
+	ecrit_socket(comm, "coucou");
+	close(comm);
+}
+
+
+int deploiement_serveur(void)
 {
     pid_t idProc;
     bool darthVader = true;
@@ -156,7 +174,7 @@ int main (void)
 	//fermeture socket
 	close(sock);
 	*/
-	return 0;
+	return descSockCOM;
 }
 
 int ouvreSocket(void)
@@ -170,4 +188,9 @@ int ouvreSocket(void)
         exit(3);
     }   
     return (descSock);
+}
+
+void ecrit_socket(int desc, char * message)
+{
+	write(desc, message, strlen(message));
 }
