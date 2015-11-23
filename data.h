@@ -54,6 +54,6 @@ void addAddressInTable(char ** table, char * address);
 
 /* Fonction qui renvoie le nombre d'octet a envoyer en comptant les caracteres a envoyer
  */
-int listFilesInDir(char * dir)
+int listFilesInDir(char * dir);
 
 #endif
