@@ -62,7 +62,7 @@ int deploiement_serveur(void)
     char proxyPort[MAXPORTLEN]; /* Port d'ecoute du proxy FTP */
     char clientAddr[MAXHOSTLEN];    /* Adresse du client connecte sur le proxy */
     char clientPort[MAXPORTLEN];    /* Port du client connete sur le proxy par le socket de communication */
-    /*char buffer[MAXBUFFERLEN];      /* buffer stockant les messages echanges entre le client et le serveur */
+    /*char buffer[MAXBUFFERLEN];      // buffer stockant les messages echanges entre le client et le serveur */
 	
 
 	int groupe = 1;
