@@ -1,5 +1,5 @@
-#ifndef FONCTION_H
-#define FONCTION_H
+#ifndef DATA_H
+#define DATA_H
 
 #include <stdio.h>
 #include <unistd.h>
