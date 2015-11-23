@@ -1,16 +1,18 @@
 #include "fonctions.h"
 
+int size;
 
 typedef struct s_data
 {
   char addr[17];
-  char listeFichiers[128];
+  char listeFichiers[256];
 } t_data;
 
 
 Data initData()
 {
 	Data info = malloc(sizeof(struct s_data));
+	info->listeFichers = {0};
 	return info;
 }
 
@@ -28,6 +30,7 @@ void fileList(Data data)
 
 void addFileInListFile(char * fileName, Data info)
 {
+/*TODO: gerer l'ajout dans le tableau en rajoutant en ';' entre chaque nom de fichier*/
     if (info == NULL)
         Erreur("la structure en parametre n'est pas initialisée: ",98);
     if (fileName == NULL)
@@ -45,7 +48,7 @@ void addAddress(Data info, char * addressRecieved)
   strcpy(info->addr,addressRecieved);
 }
 
-void initAddressTable(char ** table, int size)
+void initAddressTable(char ** table)
 {
   int i;
   table = malloc(sizeof *table * 2);
@@ -55,10 +58,10 @@ void initAddressTable(char ** table, int size)
     table[i] = malloc(sizeof **table * 17);
     
   }
-  size = 2;
+  size = 0;
 }
 
-void deleteAddessTable( char ** table, int size)
+void deleteAddessTable( char ** table)
 {
   int i;
   
@@ -66,11 +69,49 @@ void deleteAddessTable( char ** table, int size)
   {
     free(table[i]);  
   }
-  
+  size =0;
   free(table);
 }
 
 void addAddressInTable(char ** table, char * address)
 {
+  if (table == NULL )
+     Erreur("la structure en parametre n'est pas initialisée: ",98);
+  if (size>=2 )
+  {
+     char **tmp = realloc(table,sizeof *table);
+     if (tmp == NULL)
+    {
+       free(tmp);
+       Erreur("erreur lors de l'allocation de mémoire: ",96);
+    }
+    else
+       table = tmp;
+       table[size] = malloc(sizeof **table * 17);  
+  }
+  table[size]= address;    
+  size++;     
 }
+
+
+void listFilesInDir(char * dir)
+{
+/*TODO: mettre les noms de fichier en parametre de addFileInListFiles*/
+    DIR *mydir;
+    struct dirent *myfile;
+    struct stat mystat;
+
+    mydir = opendir(dir);
+    while((myfile = readdir(mydir)) != NULL)
+    {
+        stat(myfile->d_name, &mystat);    
+        printf(" %s\n", myfile->d_name);
+    }
+    closedir(mydir);
+}
+
+
+
+
+
 

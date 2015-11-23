@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <string.h>
+#include <dirent.h>
+#include <sys/stat.h>
 #include "erreur.h"
 
 /*structure*/
@@ -13,6 +15,7 @@ typedef struct s_data * Data;
 
 
 /*serveur*/
+
 Data initData();
 
 void deleteData(Data data);
@@ -21,9 +24,10 @@ void fileList(Data data);
 void addAddress(Data info, char * addressRecieved);
 
 /* Client*/
-void initAddressTable(char ** table, int size);
-void deleteAddessTable( char ** table, int size);
-void addAddressInTable(char ** table, char * address);
 
+void initAddressTable(char ** table);
+void deleteAddessTable( char ** table);
+void addAddressInTable(char ** table, char * address);
+void listFilesInDir(char * dir);
 
 #endif
