@@ -32,8 +32,8 @@ int main (int argc, char * argv[])
 		exit(1);
 	}
 
-	adrServ = argv[1];	//Recuperation de l'adresse du serveur passé en parametre
-	numPort = atoi(argv[2]);	//Recuperation du numero de port pour la connexion au serveur (passé en parametre)
+	adrServ = argv[1];	/*Recuperation de l'adresse du serveur passé en parametre*/
+	numPort = atoi(argv[2]);	/*Recuperation du numero de port pour la connexion au serveur (passé en parametre)*/
 
 	desc = connexion(adrServ, numPort);
 
@@ -47,10 +47,12 @@ int connexion(char * adrServ, int numPort)
 	struct sockaddr_in serv_addr;
 	struct hostent * server;
 	int sockfd = ouvreSocket();
-	//int err;
-	//char * buffer = (char *)malloc(sizeof(MAXBUFFERLEN + 1));
+	/*
+	int err;
+	char * buffer = (char *)malloc(sizeof(MAXBUFFERLEN + 1));
 
-	//strcat(fichDem, "\r\r\n\n");
+	strcat(fichDem, "\r\r\n\n");
+	*/
 
 	server = gethostbyname(adrServ);
 	if (server == NULL)
@@ -67,10 +69,10 @@ int connexion(char * adrServ, int numPort)
 	if (connect(sockfd,(struct sockaddr*)&serv_addr,sizeof(serv_addr)) < 0)
 		fprintf(stderr, "ERROR connecting");
 		  
-	 
-	//write(sockfd, fichDem, strlen(fichDem));
+	/* 
+	write(sockfd, fichDem, strlen(fichDem));
 
-	/*
+	
 	do {
 		err = read(sockfd, buffer, MAXBUFFERLEN);
 		buffer[err] = '\0';

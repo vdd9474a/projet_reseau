@@ -1,18 +1,20 @@
 #include "data.h"
 
+#define TAILLEBLOCK 256
+
 int size;
 
 typedef struct s_data
 {
   char addr[17];
-  char listeFichiers[256];
+  char listeFichiers[TAILLEBLOCK];
 } t_data;
 
 
 Data initData()
 {
 	Data info = malloc(sizeof(struct s_data));
-	info->listeFichers = {0};
+	info->listeFichiers[0] = '\0';
 	return info;
 }
 
