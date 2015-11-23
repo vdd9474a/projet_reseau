@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <string.h>
-#include "fonctions.h"
+#include "data.h"
 #include "erreur.h"
 
 int main()

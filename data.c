@@ -1,4 +1,4 @@
-#include "fonctions.h"
+#include "data.h"
 
 int size;
 
