@@ -13,7 +13,7 @@ typedef struct s_data
 
 Data initData()
 {
-	Data info = malloc(sizeof(struct s_data));
+	Data info = (t_data *)malloc(sizeof(struct s_data));
 	info->listeFichiers[0] = '\0';
 	return info;
 }
@@ -32,13 +32,20 @@ void fileList(Data data)
 
 void addFileInListFile(char * fileName, Data info)
 {
-/*TODO: gerer l'ajout dans le tableau en rajoutant en ';' entre chaque nom de fichier*/
-    if (info == NULL)
-        Erreur("la structure en parametre n'est pas initialisée: ",98);
-    if (fileName == NULL)
+  int i=0;
+  int sizeFileName = strlen(fileName);
+  if (info == NULL)
+    Erreur("la structure en parametre n'est pas initialisée: ",98);
+  if (fileName == NULL)
         Erreur("la chaine de charactere en parametre n'est pas initialisée: ",97);
-        
-    strcpy(info->listeFichiers,fileName);
+  while(i<255 || info->listeFichiers[i] == '\0')
+  {
+    i++;  
+  }
+  /*separation des noms de fichier par le caractere ';' */
+  info->listeFichiers[i] = ';';
+  if(255-(i++)>=(sizeFileName+1))
+    strcpy(info->listeFichiers,fileName);    
 }
 
 void addAddress(Data info, char * addressRecieved)
@@ -96,20 +103,25 @@ void addAddressInTable(char ** table, char * address)
 }
 
 
-void listFilesInDir(char * dir)
+int listFilesInDir(char * dir)
 {
-/*TODO: mettre les noms de fichier en parametre de addFileInListFiles*/
     DIR *mydir;
     struct dirent *myfile;
     struct stat mystat;
+    int sizeOct;
 
     mydir = opendir(dir);
     while((myfile = readdir(mydir)) != NULL)
     {
-        stat(myfile->d_name, &mystat);    
-        printf(" %s\n", myfile->d_name);
+        stat(myfile->d_name, &mystat);
+	/*on compte le nombre de caractere + 2 qui correspond au caractere null non-compte avec strlen 
+	 * et le ';' qu'il faudra rajouter dans notre structure data
+	 */
+        sizeOct+= strlen(myfile->d_name)+2;
     }
     closedir(mydir);
+    
+    return sizeOct;
 }
 
 

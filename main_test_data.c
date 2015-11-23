@@ -29,5 +29,7 @@ int main()
 	printf("supression de la structure...\n");
 	deleteData(test_data);
 	
+	
+	
 	return 0;
 }
