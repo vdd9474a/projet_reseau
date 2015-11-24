@@ -29,7 +29,7 @@ int main()
 	printf("supression de la structure...\n");
 	deleteData(test_data);
 	
-	
+	printf("%d\n",listFilesInDir("."));
 	
 	return 0;
 }

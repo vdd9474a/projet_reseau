@@ -11,7 +11,7 @@ typedef struct s_data
 } t_data;
 
 
-Data initData(void)
+Data initData()
 {
 	Data info = (t_data *)malloc(sizeof(struct s_data));
 	info->listeFichiers[0] = '\0';
@@ -114,7 +114,15 @@ int listFilesInDir(char * dir)
     while((myfile = readdir(mydir)) != NULL)
     {
         stat(myfile->d_name, &mystat);
-
+	/*on ne compte pas les dossiers caches*/
+	while(myfile->d_name[0]=='.')
+	  (myfile = readdir(mydir));
+	/********************************************************************/
+	/*                                                                  */
+	/*	      fait pour le test                                     */
+	/*                                                                  */
+	/*	      printf("%s\n",myfile->d_name);                        */
+	/********************************************************************/
 	/*on compte le nombre de caractere + 2 qui correspond au caractere null non-compte avec strlen 
 	 * et le ';' qu'il faudra rajouter dans notre structure data
 	 */
@@ -124,4 +132,9 @@ int listFilesInDir(char * dir)
     
     return sizeOct;
 }
+
+
+
+
+
 
