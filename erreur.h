@@ -8,6 +8,6 @@
 
 
 
-void Erreur(char* mess, int code);
+void erreur(char* mess, int code);
 
 #endif

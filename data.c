@@ -26,7 +26,7 @@ void deleteData(Data data)
 void fileList(Data data)
 {
    if (data == NULL)
-        Erreur("la structure en parametre n'est pas initialisée: ",98);
+        erreur("la structure en parametre n'est pas initialisée: ",98);
    printf("%s \n", data->listeFichiers);
 }
 
@@ -35,9 +35,9 @@ void addFileInListFile(char * fileName, Data info)
   int i=0;
   int sizeFileName = strlen(fileName);
   if (info == NULL)
-    Erreur("la structure en parametre n'est pas initialisée: ",98);
+    erreur("la structure en parametre n'est pas initialisée: ",98);
   if (fileName == NULL)
-        Erreur("la chaine de charactere en parametre n'est pas initialisée: ",97);
+        erreur("la chaine de charactere en parametre n'est pas initialisée: ",97);
   while(i<255 || info->listeFichiers[i] == '\0')
   {
     i++;  
@@ -51,9 +51,9 @@ void addFileInListFile(char * fileName, Data info)
 void addAddress(Data info, char * addressRecieved)
 {   
     if (info == NULL)
-        Erreur("la structure en parametre n'est pas initialisée: ",98);
+        erreur("la structure en parametre n'est pas initialisée: ",98);
     if ( addressRecieved == NULL)
-        Erreur("la chaine de charactere en parametre n'est pas initialisée: ",97);
+        erreur("la chaine de charactere en parametre n'est pas initialisée: ",97);
   strcpy(info->addr,addressRecieved);
 }
 
@@ -85,14 +85,14 @@ void deleteAddessTable( char ** table)
 void addAddressInTable(char ** table, char * address)
 {
   if (table == NULL )
-     Erreur("la structure en parametre n'est pas initialisée: ",98);
+     erreur("la structure en parametre n'est pas initialisée: ",98);
   if (size>=2 )
   {
      char **tmp = realloc(table,sizeof *table);
      if (tmp == NULL)
     {
        free(tmp);
-       Erreur("erreur lors de l'allocation de mémoire: ",96);
+       erreur("erreur lors de l'allocation de mémoire: ",96);
     }
     else
        table = tmp;
