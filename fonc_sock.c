@@ -14,6 +14,8 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
+#include <signal.h>
+#include <time.h> 
 
 #define NB_MEMBRE_GROUPE 3
 
