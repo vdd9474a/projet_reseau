@@ -1,6 +1,8 @@
 /* http://broux.developpez.com/articles/c/sockets/ */
 
 #include "fonc_sock.h"
+#include "erreur.h"
+
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -39,8 +41,7 @@ int ouvreSocket(void)
     int descSock = socket(AF_INET, SOCK_STREAM, 0); 
     if (descSock == -1) 
     {   
-        perror("Erreur Creation Socket RDV\n");
-        exit(3);
+        erreur("Erreur Creation Socket RDV\n", 1);
     }   
     return (descSock);
 }
@@ -88,15 +89,14 @@ int deploiement_serveur(void)
     if (ecode)
     {
         fprintf(stderr,"getaddrinfo: %s\n", gai_strerror(ecode));
-        exit(1);
+		exit(3);
     }
 
     /* Publication de la socket */
     ecode = bind(descSockRDV, res_s->ai_addr, res_s->ai_addrlen);
     if (ecode == -1)
     {
-        perror("Erreur liaison de la socket de RDV");
-        exit(3);
+        erreur("Erreur liaison de la socket de RDV", 3);
     }
 
     /* Nous n'avons plus besoin de cette liste chainee addrinfo */
@@ -107,13 +107,12 @@ int deploiement_serveur(void)
     ecode=getsockname(descSockRDV, (struct sockaddr *) &myinfo, &len);
     if (ecode == -1)
     {
-        perror("SERVEUR: getsockname");
-        exit(4);
+        erreur("SERVEUR: getsockname", 4);
     }
     ecode = getnameinfo((struct sockaddr*)&myinfo, sizeof(myinfo), proxyAddr,MAXHOSTLEN, proxyPort, MAXPORTLEN, NI_NUMERICHOST | NI_NUMERICSERV);
     if (ecode != 0)
     {
-            fprintf(stderr, "error in getnameinfo: %s\n", gai_strerror(ecode));
+        fprintf(stderr, "error in getnameinfo: %s\n", gai_strerror(ecode));
         exit(4);
     }
     printf("\nL'adresse d'ecoute est: %s\n", proxyAddr);
@@ -122,8 +121,7 @@ int deploiement_serveur(void)
     ecode = listen(descSockRDV, LISTENLEN);
     if (ecode == -1)
     {
-        perror("Erreur initialisation buffer d'ecoute");
-        exit(5);
+        erreur("Erreur initialisation buffer d'ecoute", 5);
     }
 
     len = sizeof(struct sockaddr_storage);
@@ -137,15 +135,13 @@ int deploiement_serveur(void)
         descSockCOM = accept(descSockRDV, (struct sockaddr *) &from, &len);
         if (descSockCOM == -1)
         {
-            perror("Erreur accept\n");
-            exit(6);
+            erreur("Erreur accept\n", 6);
         }
         idProc = fork();
         switch (idProc)
         {
             case -1 :
-                perror("impossible de forker()\n");
-                exit(0);
+                erreur("impossible de forker()\n", 7);
             case 0 :
                 darthVader = false;
 				break;
@@ -157,8 +153,8 @@ int deploiement_serveur(void)
     ecode = getnameinfo((struct sockaddr*)&from, len, clientAddr,MAXHOSTLEN, clientPort, MAXPORTLEN, NI_NUMERICHOST | NI_NUMERICSERV);
     if (ecode != 0)
     {
-            fprintf(stderr, "error in getnameinfo: %s\n", gai_strerror(ecode));
-        exit(4);
+		fprintf(stderr, "error in getnameinfo: %s\n", gai_strerror(ecode));
+        exit(8);
     }
     printf("\n  port client : %s\n", clientPort);
     printf("    addr client : %s\n", clientAddr);
@@ -181,8 +177,7 @@ int connexion(char * adrServ, int numPort)
 	server = gethostbyname(adrServ);
 	if (server == NULL)
 	{
-		fprintf(stderr, "Erreur, Host introuvable\n");
-		exit(5);
+		erreur("Erreur, Host introuvable\n", 9);
 	}
 
 	bzero((char *) &serv_addr, sizeof(serv_addr));
@@ -201,8 +196,7 @@ char * ecoute_reponse(int desc, char * buffer)
 	int ecode = read(desc, buffer, MAXBUFFERLEN);
 	if (ecode == -1)
 	{
-		perror("probleme de lecture\n");
-		exit(6);
+		erreur("probleme de lecture\n", 10);
 	}
 	buffer[ecode] = '\0';
 	return buffer;

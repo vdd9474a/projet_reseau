@@ -18,7 +18,7 @@ int main()
 	if(test_data!=NULL)
 		printf("initalisation de la strucutre test_data s'est bien passee\n");
 	else
-		Erreur("initalisation de la strucutre test_data",99);
+		erreur("initalisation de la strucutre test_data",99);
 	
 	addFileInListFile("test.txt", test_data);
 	printf("fichier est bien ajouté dans la structure\n");
