@@ -29,7 +29,7 @@
 #define SERVPORT "9000"         /* Definition du port d'ecoute, si 0 port choisi dynamiquement */
 #define LISTENLEN 23            /* Taille du tampon de demande de connexion */
 
-#define GROUPE 3
+
 #define TIMEMAX 60		/*duree du timer. Par defaut : 60 secondes*/
 
 /* fonction appelee par le signal SIGALRM */
@@ -172,7 +172,7 @@ int deploiement_serveur(void)
 				break;
 			default:
 				membre_groupe++;
-				if (membre_groupe >= GROUPE) {membre_groupe = 0; groupe++;}
+				if (membre_groupe >= NB_MEMBRE_GROUPE) {membre_groupe = 0; groupe++;}
         }
     }
     ecode = getnameinfo((struct sockaddr*)&from, len, clientAddr,MAXHOSTLEN, clientPort, MAXPORTLEN, NI_NUMERICHOST | NI_NUMERICSERV);
