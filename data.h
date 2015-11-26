@@ -11,6 +11,7 @@
 #include "erreur.h"
 
 /*structure*/
+/* Structure servant*/
 typedef struct s_data * Data;
 
 

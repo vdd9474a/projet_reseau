@@ -1,8 +1,6 @@
 /* http://broux.developpez.com/articles/c/sockets/ */
 
 #include "fonc_sock.h"
-#include "erreur.h"
-
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -16,6 +14,8 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
+#include <signal.h>
+#include <time.h> 
 
 #define NB_MEMBRE_GROUPE 3
 
@@ -30,7 +30,21 @@
 #define LISTENLEN 23            /* Taille du tampon de demande de connexion */
 
 #define GROUPE 3
+#define TIMEMAX 60		/*duree du timer. Par defaut : 60 secondes*/
 
+/* fonction appelee par le signal SIGALRM */
+void timer(int s)
+{
+	signal(SIGALRM,timer);
+	/********************************************************************/
+	/*                                                                  */
+	/*	      fait pour le test                                     */
+	/*                                                                  */
+		      printf("timer fini\n");                              
+	/********************************************************************/
+	
+	exit(0);
+}
 
 int ouvreSocket(void)
 {
@@ -41,7 +55,8 @@ int ouvreSocket(void)
     int descSock = socket(AF_INET, SOCK_STREAM, 0); 
     if (descSock == -1) 
     {   
-        erreur("Erreur Creation Socket RDV\n", 1);
+        perror("Erreur Creation Socket RDV\n");
+        exit(3);
     }   
     return (descSock);
 }
@@ -71,6 +86,11 @@ int deploiement_serveur(void)
 /*---------------------------------------------------- */
 
     descSockRDV = ouvreSocket();
+    
+    /* protection du signal SIGALRM 
+     *pour qu'il soit redirige a la fonction timer
+     */
+    signal(SIGALRM,timer);
 
 /*----------a voir */
 	/*
@@ -89,14 +109,15 @@ int deploiement_serveur(void)
     if (ecode)
     {
         fprintf(stderr,"getaddrinfo: %s\n", gai_strerror(ecode));
-		exit(3);
+        exit(1);
     }
 
     /* Publication de la socket */
     ecode = bind(descSockRDV, res_s->ai_addr, res_s->ai_addrlen);
     if (ecode == -1)
     {
-        erreur("Erreur liaison de la socket de RDV", 3);
+        perror("Erreur liaison de la socket de RDV");
+        exit(3);
     }
 
     /* Nous n'avons plus besoin de cette liste chainee addrinfo */
@@ -107,12 +128,13 @@ int deploiement_serveur(void)
     ecode=getsockname(descSockRDV, (struct sockaddr *) &myinfo, &len);
     if (ecode == -1)
     {
-        erreur("SERVEUR: getsockname", 4);
+        perror("SERVEUR: getsockname");
+        exit(4);
     }
     ecode = getnameinfo((struct sockaddr*)&myinfo, sizeof(myinfo), proxyAddr,MAXHOSTLEN, proxyPort, MAXPORTLEN, NI_NUMERICHOST | NI_NUMERICSERV);
     if (ecode != 0)
     {
-        fprintf(stderr, "error in getnameinfo: %s\n", gai_strerror(ecode));
+            fprintf(stderr, "error in getnameinfo: %s\n", gai_strerror(ecode));
         exit(4);
     }
     printf("\nL'adresse d'ecoute est: %s\n", proxyAddr);
@@ -121,11 +143,12 @@ int deploiement_serveur(void)
     ecode = listen(descSockRDV, LISTENLEN);
     if (ecode == -1)
     {
-        erreur("Erreur initialisation buffer d'ecoute", 5);
+        perror("Erreur initialisation buffer d'ecoute");
+        exit(5);
     }
 
     len = sizeof(struct sockaddr_storage);
-
+    alarm(TIMEMAX);
     while (darthVader)
     {
         /*******************************
@@ -135,13 +158,15 @@ int deploiement_serveur(void)
         descSockCOM = accept(descSockRDV, (struct sockaddr *) &from, &len);
         if (descSockCOM == -1)
         {
-            erreur("Erreur accept\n", 6);
+            perror("Erreur accept\n");
+            exit(6);
         }
         idProc = fork();
         switch (idProc)
         {
             case -1 :
-                erreur("impossible de forker()\n", 7);
+                perror("impossible de forker()\n");
+                exit(0);
             case 0 :
                 darthVader = false;
 				break;
@@ -153,8 +178,8 @@ int deploiement_serveur(void)
     ecode = getnameinfo((struct sockaddr*)&from, len, clientAddr,MAXHOSTLEN, clientPort, MAXPORTLEN, NI_NUMERICHOST | NI_NUMERICSERV);
     if (ecode != 0)
     {
-		fprintf(stderr, "error in getnameinfo: %s\n", gai_strerror(ecode));
-        exit(8);
+            fprintf(stderr, "error in getnameinfo: %s\n", gai_strerror(ecode));
+        exit(4);
     }
     printf("\n  port client : %s\n", clientPort);
     printf("    addr client : %s\n", clientAddr);
@@ -177,7 +202,8 @@ int connexion(char * adrServ, int numPort)
 	server = gethostbyname(adrServ);
 	if (server == NULL)
 	{
-		erreur("Erreur, Host introuvable\n", 9);
+		fprintf(stderr, "Erreur, Host introuvable\n");
+		exit(5);
 	}
 
 	bzero((char *) &serv_addr, sizeof(serv_addr));
@@ -196,7 +222,8 @@ char * ecoute_reponse(int desc, char * buffer)
 	int ecode = read(desc, buffer, MAXBUFFERLEN);
 	if (ecode == -1)
 	{
-		erreur("probleme de lecture\n", 10);
+		perror("probleme de lecture\n");
+		exit(6);
 	}
 	buffer[ecode] = '\0';
 	return buffer;
@@ -206,3 +233,4 @@ void close_connexion(int desc)
 {
 	close(desc);
 }
+
