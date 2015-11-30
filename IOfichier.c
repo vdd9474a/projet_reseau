@@ -29,14 +29,19 @@ int get_tailleBloc()
 	return TAILLEBLOC;
 }
 
-void lire_blocFichier(int desc, Bloc bloc)
+int lire_blocFichier(int desc, Bloc bloc)
 {
-	read(desc, bloc, TAILLEBLOC);
+	return read(desc, bloc, TAILLEBLOC);
 }
 
 void ecrire_blocFichier(int desc, Bloc bloc)
 {
-	write(desc, bloc, TAILLEBLOC);
+	write(desc, bloc, sizeof(bloc));
+}
+
+int creerFichier(char * nomF)
+{
+	return creat(nomF, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 }
 
 int ouvrirFichier(char * nomF, int mode)
