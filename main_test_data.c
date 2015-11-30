@@ -33,8 +33,8 @@ int main()
 	
 	printf("supression de la structure...\n");
 	deleteData(test_data);
-	
-	printf("%d\n",listFilesInDir("."));
+	/*TODO : il y a un probleme lors de la supression de la structure... a verifier*/
+	printf("structure suprimée\n");
 	
 	/***********************************************************/
 	/*test des diférentes fonctions sur la liste des adresse IP*/
@@ -43,6 +43,11 @@ int main()
 	  printf("initalisation de le tableau d'adresse IP s'est bien passee\n");
 	else
 	  erreur("initalisation de la strucutre test_data",99);
+	for(i=0;i<6;i++)
+	{
+	  addAddressInTable(testTable, "TEST");
+	}
+	
 	for(i=0;i<6;i++)
 	{
 	  addAddressInTable(testTable, "TEST");
