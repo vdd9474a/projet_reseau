@@ -8,12 +8,17 @@
 
 int main()
 {
-	/*******************************/
-	/*test des diférentes fonctions*/
-	/*******************************/
+	int i;
+	/******************************************************/
+	/*test des diférentes fonctions sur la structure data */
+	/******************************************************/
 	
 	/*intitialisation d'un structure Data*/
 	Data test_data = initData();
+	
+	/*intitialisation d'une liste de chaine de caractere*/
+	char ** testTable;
+	initAddressTable(testTable);
 	
 	if(test_data!=NULL)
 		printf("initalisation de la strucutre test_data s'est bien passee\n");
@@ -30,6 +35,22 @@ int main()
 	deleteData(test_data);
 	
 	printf("%d\n",listFilesInDir("."));
+	
+	/***********************************************************/
+	/*test des diférentes fonctions sur la liste des adresse IP*/
+	/***********************************************************/
+	if(testTable!=NULL)
+	  printf("initalisation de le tableau d'adresse IP s'est bien passee\n");
+	else
+	  erreur("initalisation de la strucutre test_data",99);
+	for(i=0;i<6;i++)
+	{
+	  addAddressInTable(testTable, "TEST");
+	}
+	
+	
+	printf("supression du tableau d'adresse IP\n");
+	deleteAddessTable(testTable);
 	
 	return 0;
 }

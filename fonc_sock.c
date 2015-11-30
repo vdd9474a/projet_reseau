@@ -1,6 +1,7 @@
 /* http://broux.developpez.com/articles/c/sockets/ */
 
 #include "fonc_sock.h"
+#include "myTimer.h"
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -29,22 +30,10 @@
 #define SERVPORT "9000"         /* Definition du port d'ecoute, si 0 port choisi dynamiquement */
 #define LISTENLEN 23            /* Taille du tampon de demande de connexion */
 
-
 #define TIMEMAX 60		/*duree du timer. Par defaut : 60 secondes*/
 
-/* fonction appelee par le signal SIGALRM */
-void timer(int s)
-{
-	signal(SIGALRM,timer);
-	/********************************************************************/
-	/*                                                                  */
-	/*	      fait pour le test                                     */
-	/*                                                                  */
-		      printf("timer fini\n");                              
-	/********************************************************************/
-	
-	exit(0);
-}
+
+
 
 int ouvreSocket(void)
 {
@@ -86,11 +75,6 @@ int deploiement_serveur(void)
 /*---------------------------------------------------- */
 
     descSockRDV = ouvreSocket();
-    
-    /* protection du signal SIGALRM 
-     *pour qu'il soit redirige a la fonction timer
-     */
-    signal(SIGALRM,timer);
 
 /*----------a voir */
 	/*
@@ -148,7 +132,7 @@ int deploiement_serveur(void)
     }
 
     len = sizeof(struct sockaddr_storage);
-    alarm(TIMEMAX);
+    
     while (darthVader)
     {
         /*******************************
