@@ -2,6 +2,7 @@
 
 #include "fonc_sock.h"
 #include "myTimer.h"
+#include "IOfichier.h"
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -218,3 +219,31 @@ void close_connexion(int desc)
 	close(desc);
 }
 
+void emettreFichier(char * nomF, int comm)
+{
+	int fich = ouvrirFichier(nomF, LECTURE);
+	int lu;
+	Bloc bloc = creer_bloc();
+
+	while ((lu = read(fich, bloc, get_tailleBloc())) != 0)
+	{
+		write(comm, bloc, lu);
+	}
+	supprimer_bloc(bloc);
+	fermerFichier(fich);
+}
+
+void recevoirFichier(char * nomF, int comm)
+{
+	int fich = creerFichier(nomF);
+	int lu;
+	Bloc bloc = creer_bloc();
+
+
+	while ((lu = read(comm, bloc, get_tailleBloc())) != 0)
+	{
+		write(fich, bloc, lu);
+	}
+	supprimer_bloc(bloc);
+	fermerFichier(fich);
+}

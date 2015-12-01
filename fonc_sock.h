@@ -29,4 +29,12 @@ char * ecoute_reponse(int desc, char * buffer);
   */
 void close_connexion(int desc);
 
+/* Fonction qui transfert le fichier nomF sur le descripteur de fichier comm (socket?)
+ */
+void emettreFichier(char * nomF, int comm);
+
+/* Fonction qui recoit un fichier par le descripteur comm (socket?) et qui creer le fichier nomF
+ */
+void recevoirFichier(char * nomF, int comm);
+
 #endif

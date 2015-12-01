@@ -9,11 +9,7 @@ int main (int argc, char * argv[])
 {
 	int numPort;
 	int comm;
-	int lu;
-	int fich;
 	char * adrServ;
-	//char buffer[MAXBUFFERLEN];
-	Bloc bloc = creer_bloc();
 
 	if (argc != 3)
 	{
@@ -26,17 +22,12 @@ int main (int argc, char * argv[])
 
 
 	comm = connexion(adrServ, numPort);
-	fich = creerFichier("out.jpg");
-	//fich = ouvrirFichier("out.jpg", ECRITURE);
 
-	do
-	{
-		lu = lire_blocFichier(comm, bloc);
-		ecrire_blocFichier(fich, bloc);
-	} while (lu != get_tailleBloc());
-
+	recevoirFichier("out.txt", comm);
 
 	printf("fichier recu et ecrit!\n");
+
+	close_connexion(comm);
 
 	return 0;
 }
