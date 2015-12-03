@@ -54,4 +54,10 @@ int lire_blocFichier(int desc, Bloc bloc);
  */
 void ecrire_blocFichier(int desc, Bloc bloc);
 
+/* Fonction donnant la taille du fichier en octet
+ * Retourne taille du fichier
+ */
+int tailleFichier(char * nomF);
+
+
 #endif

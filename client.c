@@ -1,3 +1,5 @@
+/* fseek */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonc_sock.h"
@@ -23,7 +25,7 @@ int main (int argc, char * argv[])
 
 	comm = connexion(adrServ, numPort);
 
-	recevoirFichier("out.txt", comm);
+	recevoirFichier("out.jpg", comm);
 
 	printf("fichier recu et ecrit!\n");
 

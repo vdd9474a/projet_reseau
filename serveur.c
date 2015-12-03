@@ -5,11 +5,13 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include <sys/stat.h>
+
 int main (void)
 {
 	int comm = deploiement_serveur();
 
-	emettreFichier("config.txt", comm);
+	emettreFichier("coffee.jpg", comm);
 
 	printf("Fichier envoye!\n");
 

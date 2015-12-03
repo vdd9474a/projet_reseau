@@ -221,10 +221,17 @@ void close_connexion(int desc)
 
 void emettreFichier(char * nomF, int comm)
 {
-	int fich = ouvrirFichier(nomF, LECTURE);
+	int fich;
 	int lu;
 	Bloc bloc = creer_bloc();
+	
+	char res[32];
 
+	sprintf(res, "%d", tailleFichier(nomF));
+	write(comm, res, sizeof(res));
+
+	fich = ouvrirFichier(nomF, LECTURE);
+	
 	while ((lu = read(fich, bloc, get_tailleBloc())) != 0)
 	{
 		write(comm, bloc, lu);
@@ -237,12 +244,23 @@ void recevoirFichier(char * nomF, int comm)
 {
 	int fich = creerFichier(nomF);
 	int lu;
+	int total_lu = 0;
+	int taille;
+	int t_bloc = get_tailleBloc();
 	Bloc bloc = creer_bloc();
 
+	char res[32];
 
-	while ((lu = read(comm, bloc, get_tailleBloc())) != 0)
+	read(comm, res, sizeof(res));
+	sscanf(res, "%d", &taille);
+
+	while ((lu = read(comm, bloc, t_bloc)) != 0)
 	{
 		write(fich, bloc, lu);
+		
+		total_lu += lu;
+		if (total_lu == taille)
+			break;
 	}
 	supprimer_bloc(bloc);
 	fermerFichier(fich);

@@ -53,3 +53,12 @@ void fermerFichier(int desc)
 {
 	close(desc);
 }
+
+int tailleFichier(char * nomF)
+{
+	int fich = ouvrirFichier(nomF, LECTURE);
+	int taille = lseek(fich, 0, SEEK_END);
+	fermerFichier(fich);
+
+	return taille;
+}
