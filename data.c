@@ -8,6 +8,7 @@ typedef struct s_data
 {
   char addr[17];
   char listeFichiers[TAILLEBLOCK];
+  int nombreFichier;
 } t_data;
 
 
@@ -33,19 +34,29 @@ void fileList(Data data)
 void addFileInListFile(char * fileName, Data info)
 {
   int i=0;
-  int sizeFileName = strlen(fileName);
+  int j;
+  int sizeFileName = strlen(fileName)+1;
+ 
   if (info == NULL)
     erreur("la structure en parametre n'est pas initialisée: ",98);
   if (fileName == NULL)
-        erreur("la chaine de charactere en parametre n'est pas initialisée: ",97);
-  while(i<255 || info->listeFichiers[i] == '\0')
+    erreur("la chaine de charactere en parametre n'est pas initialisée: ",97);
+  
+  while(i<255 && info->listeFichiers[i] != '\0')
   {
     i++;  
   }
+  printf("%d\n",i);
   /*separation des noms de fichier par le caractere ';' */
-  info->listeFichiers[i] = ';';
-  if(255-(i++)>=(sizeFileName+1))
-    strcpy(info->listeFichiers,fileName);    
+  if(i!=0)
+    info->listeFichiers[i++] = ';';/**/
+    
+  if(255-(i+1)>=(sizeFileName))
+    for(j=0;j<sizeFileName;j++)
+    {
+      info->listeFichiers[i+j] = fileName[j];
+    }
+    
 }
 
 void addAddress(Data info, char * addressRecieved)
@@ -60,11 +71,11 @@ void addAddress(Data info, char * addressRecieved)
 void initAddressTable(char ** table)
 {
   int i;
-  table = malloc(sizeof *table * 2);
+  table = malloc(2* sizeof *table);
   
   for (i = 0; i < 2; i++)
   {
-    table[i] = malloc(sizeof **table * 17);
+    table[i] = malloc(2* sizeof **table);
     
   }
   size = 0;
