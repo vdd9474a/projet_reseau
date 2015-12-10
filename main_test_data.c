@@ -8,7 +8,7 @@
 
 int main()
 {
-	/*int i;/**/
+	int i;/**/
 	/******************************************************/
 	/*test des diférentes fonctions sur la structure data */
 	/******************************************************/
@@ -17,8 +17,7 @@ int main()
 	Data test_data = initData();
 	
 	/*intitialisation d'une liste de chaine de caractere*/
-/*	char ** testTable = NULL;
-	initAddressTable(testTable);/**/
+	char ** testTable = initAddressTable();/**/
 	
 	if(test_data!=NULL)
 		printf("initalisation de la strucutre test_data s'est bien passee\n");
@@ -45,7 +44,7 @@ int main()
 	/***********************************************************/
 	/*test des diférentes fonctions sur la liste des adresse IP*/
 	/***********************************************************/
-/*	if(testTable!=NULL)
+	if(testTable!=NULL)
 	  printf("initalisation de le tableau d'adresse IP s'est bien passee\n");
 	else
 	  erreur("erreur lors de l'initialisation de la strucutre test_data",99);
@@ -53,11 +52,13 @@ int main()
 	for(i=0;i<6;i++)
 	{
 	  addAddressInTable(testTable, "TEST");
+	  printf("adresse %d est bien ajoutee\n",i);
 	}
 	
 	for(i=0;i<6;i++)
 	{
 	  addAddressInTable(testTable, "TEST");
+	  printf("adresse %d est bien ajoutee\n",i);
 	}
 	
 	

@@ -2,7 +2,7 @@
 #define MYTIMER_H
 
 
-/* Fonction qui initialise un timer à la valeur valTime mis en parametre
+/* Fonction qui initialise un timer à la valeur valTime (en seconde) mis en parametre
  */
 void setTimer(int valTime);
 

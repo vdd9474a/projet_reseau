@@ -16,6 +16,7 @@ Data initData()
 {
 	Data info = (t_data *)malloc(sizeof(struct s_data));
 	info->listeFichiers[0] = '\0';
+	info->nombreFichier = 0;
 	return info;
 }
 
@@ -46,7 +47,7 @@ void addFileInListFile(char * fileName, Data info)
   {
     i++;  
   }
-  printf("%d\n",i);
+  /*printf("%d\n",i);*/
   /*separation des noms de fichier par le caractere ';' */
   if(i!=0)
     info->listeFichiers[i++] = ';';/**/
@@ -68,27 +69,48 @@ void addAddress(Data info, char * addressRecieved)
   strcpy(info->addr,addressRecieved);
 }
 
-void initAddressTable(char ** table)
+char** initAddressTable()
 {
   int i;
-  table = malloc(2* sizeof *table);
+  char ** table;
+  table = malloc(2* sizeof (*table));
+  
+  if(table == NULL)
+    erreur("Erreur d'alocation du tableau d'adresse IP: ",96);
   
   for (i = 0; i < 2; i++)
   {
-    table[i] = malloc(2* sizeof **table);
+    table[i] = malloc(17* sizeof (**table));
+    if(table[i] == NULL)
+    {
+      for(i=i-1;i>=0;i--)
+	free(table[i]);
+      free(table);
+      erreur("Erreur d'alocation du tableau d'adresse IP: ",96);
+    }
     
   }
   size = 0;
+  return table;
 }
 
 void deleteAddessTable( char ** table)
 {
   int i;
-  
-  for(i = 0; i < size; i++)
+  if(size == 0)
   {
-    free(table[i]);  
+    for(i = 0; i < 2; i++)
+    {
+      free(table[i]);  
+      
+    }
   }
+  else
+    for(i = 0; i < 2; i++)
+    {
+      free(table[i]);  
+      
+    }
   size =0;
   free(table);
 }
@@ -99,17 +121,17 @@ void addAddressInTable(char ** table, char * address)
      erreur("la structure en parametre n'est pas initialisée: ",98);
   if (size>=2 )
   {
-     char **tmp = realloc(table,sizeof *table);
+     char **tmp = realloc(table,sizeof (*table));
      if (tmp == NULL)
     {
-       free(tmp);
+       free(table);
        erreur("erreur lors de l'allocation de mémoire: ",96);
     }
     else
        table = tmp;
-       table[size] = malloc(sizeof **table * 17);  
+       table[size] = malloc(17* sizeof (**table));  
   }
-  table[size]= address;    
+  strcpy(table[size],address);    
   size++;     
 }
 

@@ -43,7 +43,7 @@ void addAddress(Data info, char * addressRecieved);
 
 /* Fonction qui initialise un tableau de chaine de caractere mis en parametre
 */
-void initAddressTable(char ** table);
+char ** initAddressTable();
 
 /* Fonction qui detruit en memoire le tableau de chaine de caractere mis en parametre
  */
