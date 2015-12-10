@@ -34,6 +34,11 @@
 #define TIMEMAX 60		/*duree du timer. Par defaut : 60 secondes*/
 
 
+int descSockRDV;                /* Descripteur de socket de rendez-vous */
+struct sockaddr_storage from;   /* Informations sur le client connecte */
+socklen_t len;                  /* Variable utilisee pour stocker les */
+char clientAddr[MAXHOSTLEN];    /* Adresse du client connecte sur le proxy */
+char clientPort[MAXPORTLEN];    /* Port du client connete sur le proxy par le socket de communication */
 
 
 int ouvreSocket(void)
@@ -51,27 +56,19 @@ int ouvreSocket(void)
     return (descSock);
 }
 
-int deploiement_serveur(void)
+void deploiement_serveur(void)
 {
-    pid_t idProc;
-    bool darthVader = true;
+    /*pid_t idProc;*/
+    /*bool darthVader = true;*/
     int ecode;                      /* Retour des fonctions */
     struct addrinfo *res_s;         /* Resultat de la fonction getaddrinfo */
     struct addrinfo hints;
     struct sockaddr_storage myinfo; /* Informations sur la connexion de RDV */
-    struct sockaddr_storage from;   /* Informations sur le client connecte */
-    socklen_t len;                  /* Variable utilisee pour stocker les */
-    int descSockRDV;                /* Descripteur de socket de rendez-vous */
-    int descSockCOM;        /* Descripteur de socket de communication */
+    /*int descSockCOM;*/        /* Descripteur de socket de communication */
     char proxyAddr[MAXHOSTLEN]; /* Adresse IP du proxy ftp */
     char proxyPort[MAXPORTLEN]; /* Port d'ecoute du proxy FTP */
-    char clientAddr[MAXHOSTLEN];    /* Adresse du client connecte sur le proxy */
-    char clientPort[MAXPORTLEN];    /* Port du client connete sur le proxy par le socket de communication */
     /*char buffer[MAXBUFFERLEN];      // buffer stockant les messages echanges entre le client et le serveur */
 	
-
-	int groupe = 1;
-	int membre_groupe = 0;
 
 /*---------------------------------------------------- */
 
@@ -133,14 +130,16 @@ int deploiement_serveur(void)
     }
 
     len = sizeof(struct sockaddr_storage);
-    
+
+/*
     while (darthVader)
-    {
+    {*/
         /*******************************
         * Attente connexion du client  *
         *******************************/
         /* Lorsque demande de connexion, creation d'une socket de communication avec le client */
-        descSockCOM = accept(descSockRDV, (struct sockaddr *) &from, &len);
+       /*
+		descSockCOM = accept(descSockRDV, (struct sockaddr *) &from, &len);
         if (descSockCOM == -1)
         {
             perror("Erreur accept\n");
@@ -169,6 +168,34 @@ int deploiement_serveur(void)
     printf("\n  port client : %s\n", clientPort);
     printf("    addr client : %s\n", clientAddr);
 	printf("	groupe : %d\n", groupe);
+
+	return descSockCOM;
+	*/
+}
+
+int receive_connection()
+{
+	int descSockCOM, ecode;
+
+	/*******************************
+	* Attente connexion du client  *
+	*******************************/
+	/* Lorsque demande de connexion, creation d'une socket de communication avec le client */
+	descSockCOM = accept(descSockRDV, (struct sockaddr *) &from, &len);
+	if (descSockCOM == -1)
+	{
+		perror("Erreur accept\n");
+		exit(6);
+	}
+    
+	ecode = getnameinfo((struct sockaddr*)&from, len, clientAddr, MAXHOSTLEN, clientPort, MAXPORTLEN, NI_NUMERICHOST | NI_NUMERICSERV);
+    if (ecode)
+    {
+            fprintf(stderr, "error in getnameinfo: %s\n", gai_strerror(ecode));
+        exit(4);
+    }
+    printf("\n  port client : %s\n", clientPort);
+    printf("    addr client : %s\n", clientAddr);
 
 	return descSockCOM;
 }

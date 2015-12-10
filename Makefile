@@ -5,11 +5,11 @@ All=client serveur test
 
 all : ${All}
 
-client : client.c data.o fonc_sock.o erreur.o IOfichier.o
+client : client.c data.o fonc_sock.o erreur.o IOfichier.o 
 	${CC} -o client client.c -g data.o fonc_sock.o erreur.o IOfichier.o ${OPT}
 
-serveur : serveur.c data.o fonc_sock.o erreur.o IOfichier.o
-	${CC} -o serveur serveur.c -g data.o fonc_sock.o erreur.o IOfichier.o ${OPT}
+serveur : serveur.c data.o fonc_sock.o erreur.o IOfichier.o myTimer.o
+	${CC} -o serveur serveur.c -g data.o fonc_sock.o erreur.o IOfichier.o myTimer.o ${OPT}
 
 data.o : data.c data.h
 	${CC} -c data.c ${OPT}
@@ -25,6 +25,9 @@ fonc_sock.o : fonc_sock.c fonc_sock.h
 
 IOfichier.o : IOfichier.c IOfichier.h
 	${CC} -c IOfichier.c ${OPT}
+
+myTimer.o : myTimer.c myTimer.h
+	${CC} -c myTimer.c ${OPT}
 
 clean :
 	rm client serveur test *.o 

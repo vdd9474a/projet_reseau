@@ -2,6 +2,7 @@
 #include <time.h> 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "myTimer.h"
@@ -17,7 +18,7 @@ void timer(int s)
 		      printf("timer fini\n");                              
 	/********************************************************************/
 	
-	break;
+	//break;
 }
 
 

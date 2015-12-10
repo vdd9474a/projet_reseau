@@ -4,7 +4,12 @@
 /* Fonction qui met en place un serveur, et attent un connexion.
  * Retourne descripteur socket de la connexion en cours (communiquation)
  */
-int deploiement_serveur();
+void deploiement_serveur();
+
+/* Fonction bloquante qui attend une connexion
+ * Retourne le descripteur de socket
+ */
+int receive_connection();
 
  /* Fonction qui ecrit dans le socket
   */
