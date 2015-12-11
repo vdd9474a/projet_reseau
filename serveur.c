@@ -4,6 +4,7 @@
 #include "fonc_sock.h"
 #include "IOfichier.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include <signal.h>
@@ -15,7 +16,9 @@
 int comm[NB_GROUPE] = {0};
 int nbComm = 0;
 
-void finTimer(int sig) {printf("fin timer\n");}
+void transfertFicher();
+
+void finTimer(int sig) {transfertFicher();}
 
 int main (void)
 {
@@ -32,6 +35,16 @@ int main (void)
 		nbComm++;
 	}
 	//stopTimer();
+	
+	transfertFicher();
+
+	return 0;
+
+}
+
+void transfertFicher()
+{
+	int i;
 
 	printf("suite!\n");
 
@@ -41,5 +54,6 @@ int main (void)
 
 	for (i = 0; i < nbComm; i++)
 		close_connexion(comm[i]);
-}
 
+	exit(0);
+}
