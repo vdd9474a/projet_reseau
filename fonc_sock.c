@@ -292,3 +292,60 @@ void recevoirFichier(char * nomF, int comm)
 	supprimer_bloc(bloc);
 	fermerFichier(fich);
 }
+
+void emettrePartieFichier(char * nomF, int comm, int octDeb, int octFin)
+{
+	int fich;
+	int lu;
+	int oct_a_lire = octFin - octDeb;
+	int tailleBloc_a_lire = get_tailleBloc();
+	Bloc bloc = creer_bloc();
+	
+	char res[32];
+
+	sprintf(res, "%d", tailleFichier(nomF));
+	write(comm, res, sizeof(res));
+
+	fich = ouvrirFichier(nomF, LECTURE);
+
+	lseek(fich, 0, octDeb);
+	
+	if (oct_a_lire < tailleBloc_a_lire) {tailleBloc_a_lire = oct_a_lire;}
+
+	while ((lu = read(fich, bloc, tailleBloc_a_lire)) != 0)
+	{
+		write(comm, bloc, lu);
+		oct_a_lire -= lu;
+		if (oct_a_lire < tailleBloc_a_lire) {tailleBloc_a_lire = oct_a_lire;}
+	}
+	supprimer_bloc(bloc);
+	fermerFichier(fich);
+}
+
+void recevoirPartieFichier(char * nomF, int comm, int octDeb, int octFin)
+{
+	int fich = creerFichier(nomF);
+	int lu;
+	int total_lu = 0;
+	int taille;
+	int t_bloc = get_tailleBloc();
+	Bloc bloc = creer_bloc();
+
+	char res[32];
+
+	read(comm, res, sizeof(res));
+	sscanf(res, "%d", &taille);
+
+	lseek(fich, 0, octDeb);
+
+	while ((lu = read(comm, bloc, t_bloc)) != 0)
+	{
+		write(fich, bloc, lu);
+		
+		total_lu += lu;
+		if (total_lu == taille)
+			break;
+	}
+	supprimer_bloc(bloc);
+	fermerFichier(fich);
+}

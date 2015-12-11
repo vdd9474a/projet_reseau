@@ -42,4 +42,12 @@ void emettreFichier(char * nomF, int comm);
  */
 void recevoirFichier(char * nomF, int comm);
 
+/* Fonction qui transfert une partie d'un fichier d'un octet a un autre specifie en parametre (octDeb a octFin)
+ */
+void emettrePartieFichier(char * nomF, int comm, int octDeb, int octFin);
+
+/* Fonction qui recoit une partie d'un fichier d'un octet a un autre specifie en parametre (octDeb a octFin)
+ */
+void recevoirPartieFichier(char * nomF, int comm, int octDeb, int octFin);
+
 #endif
