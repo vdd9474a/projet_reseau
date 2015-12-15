@@ -12,6 +12,7 @@
 #include <sys/stat.h>
 
 #define NB_GROUPE 2
+#define TIMEOUT 60
 
 int comm[NB_GROUPE] = {0};
 int nbComm = 0;
@@ -28,7 +29,7 @@ int main (void)
 
 	//setTimer(60);
 	signal(SIGALRM, finTimer);
-	alarm(30);
+	alarm(TIMEOUT);
 	for (i = 0; i < NB_GROUPE; i++)
 	{
 		comm[i] = receive_connection();
@@ -45,12 +46,32 @@ int main (void)
 void transfertFicher()
 {
 	int i;
+	int part1;
+	int part2;
+
+	if (!nbComm)
+	{
+		fprintf(stderr, "aucune connexion!\n");
+		exit(1);
+	}
 
 	printf("suite!\n");
 
-	emettreFichier("coffee.jpg", comm[0]);
+	part1 = recevoirInt(comm[0]);
+	part2 = recevoirInt(comm[1]);
 
-	printf("Fichier envoye!\n");
+
+	//emettreFichier("coffee.jpg", comm[0]);
+	//emettrePartieFichier("coffee.jpg", comm[0], 0, 32000);
+	if (nbComm > 1)
+	{
+
+		recevoirPartieFichier("out1.jpg", comm[0], 0, part1);
+		recevoirPartieFichier("out2.jpg", comm[1], part1 , part1 + part2);
+	}
+
+
+	printf("Fichier recu!\n");
 
 	for (i = 0; i < nbComm; i++)
 		close_connexion(comm[i]);

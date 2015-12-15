@@ -50,4 +50,16 @@ void emettrePartieFichier(char * nomF, int comm, int octDeb, int octFin);
  */
 void recevoirPartieFichier(char * nomF, int comm, int octDeb, int octFin);
 
+/* Fonction qui envoit la taille du fichier nomF a travers le fichier comm (descripteur socket)
+ */
+void emettreTailleFichier(char * nomF, int comm);
+
+/* Fonction qui recoit un int à travert le fichier comm
+ */
+int recevoirInt(int comm);
+
+/* Fonction qui envoit un int a travers le fichier comm (descripteur socket)
+ */
+void emettreInt(int comm, int i);
+
 #endif

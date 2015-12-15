@@ -308,7 +308,7 @@ void emettrePartieFichier(char * nomF, int comm, int octDeb, int octFin)
 
 	fich = ouvrirFichier(nomF, LECTURE);
 
-	lseek(fich, 0, octDeb);
+	lseek(fich, octDeb, SEEK_SET);
 	
 	if (oct_a_lire < tailleBloc_a_lire) {tailleBloc_a_lire = oct_a_lire;}
 
@@ -348,4 +348,31 @@ void recevoirPartieFichier(char * nomF, int comm, int octDeb, int octFin)
 	}
 	supprimer_bloc(bloc);
 	fermerFichier(fich);
+}
+
+void emettreTailleFichier(char * nomF, int comm)
+{
+	char res[32];
+
+	sprintf(res, "%d", tailleFichier(nomF));
+	write(comm, res, sizeof(res));
+}
+
+int recevoirInt(int comm)
+{
+	int taille;
+	char res[32];
+
+	read(comm, res, sizeof(res));
+	sscanf(res, "%d", &taille);
+
+	return taille;
+}
+
+void emettreInt(int comm, int i)
+{
+	char res[32];
+
+	sprintf(res, "%d", i);
+	write(comm, res, sizeof(res));
 }
