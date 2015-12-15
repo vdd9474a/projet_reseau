@@ -69,18 +69,23 @@ void addAddress(Data info, char * addressRecieved)
   strcpy(info->addr,addressRecieved);
 }
 
+/* Intialisation d'un tableau de chaine de caractere (adresse IP)
+ * renvoie un tableau de chaine de caractere
+ */
 char** initAddressTable()
 {
   int i;
   char ** table;
-  table = malloc(2* sizeof (*table));
+  /* allocation de la memoir pour le tableau a 2 dimension*/
+  table = (char **)malloc(2* sizeof (*table));
   
   if(table == NULL)
     erreur("Erreur d'alocation du tableau d'adresse IP: ",96);
   
   for (i = 0; i < 2; i++)
   {
-    table[i] = malloc(17* sizeof (**table));
+    /*alocation de la memoir pour le tableau de caractere*/
+    table[i] = (char *)malloc(17* sizeof (**table));
     if(table[i] == NULL)
     {
       for(i=i-1;i>=0;i--)
@@ -121,7 +126,8 @@ void addAddressInTable(char ** table, char * address)
      erreur("la structure en parametre n'est pas initialisée: ",98);
   if (size>=2 )
   {
-     char **tmp = realloc(table,sizeof (*table));
+    /* reallocation de la memoir afin de rajouter une case dans le tableau d'adresse IP(chaine de caractere)*/
+     char **tmp = (char **)realloc(table,1*sizeof (*table));
      if (tmp == NULL)
     {
        free(table);
@@ -129,7 +135,8 @@ void addAddressInTable(char ** table, char * address)
     }
     else
        table = tmp;
-       table[size] = malloc(17* sizeof (**table));  
+       /* allocation de la memoir pour l'adresse IP (chaine de caractere)*/
+       table[size] = (char *)malloc(17* sizeof (**table));  
   }
   strcpy(table[size],address);    
   size++;     
