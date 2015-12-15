@@ -66,8 +66,8 @@ void transfertFicher()
 	if (nbComm > 1)
 	{
 
-		recevoirPartieFichier("out1.jpg", comm[0], 0, part1);
-		recevoirPartieFichier("out2.jpg", comm[1], part1 , part1 + part2);
+		recevoirPartieFichier("out.jpg", comm[0], 0, part1);
+		recevoirPartieFichier("out.jpg", comm[1], part1 , part1 + part2);
 	}
 
 

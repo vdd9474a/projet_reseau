@@ -324,7 +324,7 @@ void emettrePartieFichier(char * nomF, int comm, int octDeb, int octFin)
 
 void recevoirPartieFichier(char * nomF, int comm, int octDeb, int octFin)
 {
-	int fich = creerFichier(nomF);
+	int fich = ouvrirFichier(nomF, ECRITURE);
 	int lu;
 	int total_lu = 0;
 	int taille;
@@ -336,7 +336,7 @@ void recevoirPartieFichier(char * nomF, int comm, int octDeb, int octFin)
 	read(comm, res, sizeof(res));
 	sscanf(res, "%d", &taille);
 
-	lseek(fich, 0, octDeb);
+	lseek(fich, octDeb, SEEK_SET);
 
 	while ((lu = read(comm, bloc, t_bloc)) != 0)
 	{
