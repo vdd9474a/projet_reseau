@@ -17,13 +17,22 @@
 int comm[NB_GROUPE] = {0};
 int nbComm = 0;
 
+char * fichierSortie;
+
 void transfertFicher();
 
 void finTimer(int sig) {transfertFicher();}
 
-int main (void)
+int main (int argc, char ** argv)
 {
 	int i;
+	char nomDef[4] = "out";
+
+	if (argc > 1)
+		fichierSortie = argv[1];
+	else
+		fichierSortie = nomDef;
+
 
 	deploiement_serveur();
 
@@ -66,8 +75,8 @@ void transfertFicher()
 	if (nbComm > 1)
 	{
 
-		recevoirPartieFichier("out.jpg", comm[0], 0, part1);
-		recevoirPartieFichier("out.jpg", comm[1], part1 , part1 + part2);
+		recevoirPartieFichier(fichierSortie, comm[0], 0, part1);
+		recevoirPartieFichier(fichierSortie, comm[1], part1 , part1 + part2);
 	}
 
 

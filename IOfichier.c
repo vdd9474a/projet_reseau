@@ -46,7 +46,7 @@ int creerFichier(char * nomF)
 
 int ouvrirFichier(char * nomF, int mode)
 {
-	return open(nomF,mode);
+	return open(nomF,mode, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 }
 
 void fermerFichier(int desc)
