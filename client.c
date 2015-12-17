@@ -31,7 +31,10 @@ int main (int argc, char * argv[])
 
 	comm = connexion(adrServ, numPort);
 
-	emettreInt(comm, octFin - octDeb);
+	recevoirInt(comm); 
+
+	emettreInt(comm, octDeb);
+	emettreInt(comm, octFin);
 
 	emettrePartieFichier(nomF, comm, octDeb, octFin);
 	//emettrePartieFichier("coffee.jpg", comm, 32001, tailleFichier("coffee.jpg"));

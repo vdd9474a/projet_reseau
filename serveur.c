@@ -55,8 +55,8 @@ int main (int argc, char ** argv)
 void transfertFicher()
 {
 	int i;
-	int part1;
-	int part2;
+	int start[NB_GROUPE];
+	int end[NB_GROUPE];
 
 	if (!nbComm)
 	{
@@ -65,18 +65,21 @@ void transfertFicher()
 	}
 
 	printf("suite!\n");
+	/* Lancement du transfert */
+	for (i = 0; i < nbComm; i++)
+		emettreInt(comm[i], 0);
 
-	part1 = recevoirInt(comm[0]);
-	part2 = recevoirInt(comm[1]);
-
+	for (i = 0; i < nbComm; i++)
+	{
+		start[i] = recevoirInt(comm[i]);
+		end[i] = recevoirInt(comm[i]);
+	}
 
 	//emettreFichier("coffee.jpg", comm[0]);
 	//emettrePartieFichier("coffee.jpg", comm[0], 0, 32000);
-	if (nbComm > 1)
+	for (i = 0; i < nbComm; i++)
 	{
-
-		recevoirPartieFichier(fichierSortie, comm[0], 0, part1);
-		recevoirPartieFichier(fichierSortie, comm[1], part1 , part1 + part2);
+		recevoirPartieFichier(fichierSortie, comm[i], start[i], end[i]);
 	}
 
 
