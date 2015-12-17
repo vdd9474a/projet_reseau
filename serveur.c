@@ -110,8 +110,6 @@ void transfertFicher()
 		printf("client %d, de %d octets à %d octets\n", i + 1, start[i], end[i]);
 	}
 
-	//emettreFichier("coffee.jpg", comm[0]);
-	//emettrePartieFichier("coffee.jpg", comm[0], 0, 32000);
 	for (i = 0; i < nbComm; i++)
 	{
 		recevoirPartieFichier(fichierSortie, comm[i], start[i], end[i]);
