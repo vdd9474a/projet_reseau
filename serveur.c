@@ -86,7 +86,6 @@ void transfertFicher()
 	finR = tailleF;
 
 	srand(time(NULL));
-	printf("%d\n", (int) random()%(10));
 	
 	end[nbComm - 1] = tailleF;
 
