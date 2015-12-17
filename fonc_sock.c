@@ -27,12 +27,12 @@
 #define MAXBUFFERLEN 1024
 #define MAXDATALEN 1024*1000
 
-#define SERVADDR "127.0.0.1"	/* Definition de l'adresse IP d'ecoute */
 #define SERVPORT "9000"         /* Definition du port d'ecoute, si 0 port choisi dynamiquement */
 #define LISTENLEN 23            /* Taille du tampon de demande de connexion */
 
 #define TIMEMAX 60		/*duree du timer. Par defaut : 60 secondes*/
 
+char SERVADDR[16] = "127.0.0.1";	/* Definition de l'adresse IP d'ecoute */
 
 int descSockRDV;                /* Descripteur de socket de rendez-vous */
 struct sockaddr_storage from;   /* Informations sur le client connecte */
@@ -56,7 +56,7 @@ int ouvreSocket(void)
     return (descSock);
 }
 
-void deploiement_serveur(void)
+void deploiement_serveur(char * adrIP)
 {
     /*pid_t idProc;*/
     /*bool darthVader = true;*/
@@ -69,6 +69,8 @@ void deploiement_serveur(void)
     char proxyPort[MAXPORTLEN]; /* Port d'ecoute du proxy FTP */
     /*char buffer[MAXBUFFERLEN];      // buffer stockant les messages echanges entre le client et le serveur */
 	
+	if (strlen(adrIP))
+		strcpy(SERVADDR, adrIP);
 
 /*---------------------------------------------------- */
 

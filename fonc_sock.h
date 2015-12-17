@@ -1,10 +1,10 @@
 #ifndef __FONC_SOCK_H
 #define __FONC_SOCK_H
 
-/* Fonction qui met en place un serveur, et attent un connexion.
+/* Fonction qui met en place un serveur sur l'adresse IP passe en param.
  * Retourne descripteur socket de la connexion en cours (communiquation)
  */
-void deploiement_serveur();
+void deploiement_serveur(char * adrIP);
 
 /* Fonction bloquante qui attend une connexion
  * Retourne le descripteur de socket

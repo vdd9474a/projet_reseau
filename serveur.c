@@ -26,15 +26,24 @@ void finTimer(int sig) {transfertFicher();}
 int main (int argc, char ** argv)
 {
 	int i;
+	char * adrIP;
 	char nomDef[4] = "out";
 
-	if (argc > 1)
-		fichierSortie = argv[1];
+	if (argc < 2)
+	{
+		fprintf(stderr, "USAGE : %s @IP_ecoute [nomFichier_sortie] !! \n", argv[0]);
+		exit(1);
+	}
+
+	adrIP = argv[1];
+
+	if (argc == 3)
+		fichierSortie = argv[2];
 	else
 		fichierSortie = nomDef;
 
 
-	deploiement_serveur();
+	deploiement_serveur(adrIP);
 
 	//setTimer(60);
 	signal(SIGALRM, finTimer);
