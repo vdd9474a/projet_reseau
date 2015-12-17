@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include <time.h>
 #include <signal.h>
 
 #include <sys/stat.h>
@@ -28,6 +28,7 @@ int main (int argc, char ** argv)
 	int i;
 	char * adrIP;
 	char nomDef[4] = "out";
+
 
 	if (argc < 2)
 	{
@@ -64,8 +65,11 @@ int main (int argc, char ** argv)
 void transfertFicher()
 {
 	int i;
-	int start[NB_GROUPE];
-	int end[NB_GROUPE];
+	int tailleF;
+	int startR = 0;
+	int finR;
+	int start[NB_GROUPE] = {0};
+	int end[NB_GROUPE] = {0};
 
 	if (!nbComm)
 	{
@@ -76,12 +80,36 @@ void transfertFicher()
 	printf("suite!\n");
 	/* Lancement du transfert */
 	for (i = 0; i < nbComm; i++)
+	{
 		emettreInt(comm[i], 0);
+		tailleF = recevoirInt(comm[i]);
+	}
+
+	finR = tailleF;
+
+	srand(time(NULL));
+	printf("%d\n", (int) random()%(10));
+	
+	end[nbComm - 1] = tailleF;
 
 	for (i = 0; i < nbComm; i++)
 	{
-		start[i] = recevoirInt(comm[i]);
-		end[i] = recevoirInt(comm[i]);
+		if (i > 0)
+		{
+			start[i] = end[i - 1];
+		}
+		if (i < nbComm - 1)
+		{
+			end[i] =  random()%(finR - startR) + startR;
+			startR = end[i];
+		}
+	}
+
+	for (i = 0; i < nbComm; i++)
+	{
+		emettreInt(comm[i], start[i]);
+		emettreInt(comm[i], end[i]);
+		printf("client %d, de %d octets à %d octets\n", i + 1, start[i], end[i]);
 	}
 
 	//emettreFichier("coffee.jpg", comm[0]);

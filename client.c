@@ -16,7 +16,7 @@ int main (int argc, char * argv[])
 	char * adrServ;
 	char * nomF;
 
-	if (argc != 6)
+	if (argc != 4)
 	{
 		fprintf(stderr, "USAGE : %s @IP_serv num_port nomFichier octDeb octFin!", argv[0]);
 		exit(1);
@@ -25,16 +25,16 @@ int main (int argc, char * argv[])
 	adrServ = argv[1];	/*Recuperation de l'adresse du serveur passé en parametre*/
 	numPort = atoi(argv[2]);	/*Recuperation du numero de port pour la connexion au serveur (passé en parametre)*/
 	nomF = argv[3];
-	octDeb = atoi(argv[4]);
-	octFin = atoi(argv[5]);
 
 
 	comm = connexion(adrServ, numPort);
 
 	recevoirInt(comm); 
 
-	emettreInt(comm, octDeb);
-	emettreInt(comm, octFin);
+	emettreTailleFichier(nomF, comm);
+	
+	octDeb = recevoirInt(comm);
+	octFin = recevoirInt(comm);
 
 	emettrePartieFichier(nomF, comm, octDeb, octFin);
 	//emettrePartieFichier("coffee.jpg", comm, 32001, tailleFichier("coffee.jpg"));
