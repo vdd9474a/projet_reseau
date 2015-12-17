@@ -5,7 +5,6 @@
 #include "fonc_sock.h"
 #include "IOfichier.h"
 
-//#define MAXBUFFERLEN 255
 
 int main (int argc, char * argv[])
 {
@@ -37,10 +36,7 @@ int main (int argc, char * argv[])
 	octFin = recevoirInt(comm);
 
 	emettrePartieFichier(nomF, comm, octDeb, octFin);
-	//emettrePartieFichier("coffee.jpg", comm, 32001, tailleFichier("coffee.jpg"));
 
-	//recevoirFichier("out.jpg", comm);
-	//recevoirPartieFichier("out.jpg", comm, 0, 32000);
 
 	printf("fichier %s emis de l'octet %d à %d!\n", nomF, octDeb, octFin);
 

@@ -46,7 +46,6 @@ int main (int argc, char ** argv)
 
 	deploiement_serveur(adrIP);
 
-	//setTimer(60);
 	signal(SIGALRM, finTimer);
 	alarm(TIMEOUT);
 	for (i = 0; i < NB_GROUPE; i++)
@@ -54,7 +53,6 @@ int main (int argc, char ** argv)
 		comm[i] = receive_connection();
 		nbComm++;
 	}
-	//stopTimer();
 	
 	transfertFicher();
 
